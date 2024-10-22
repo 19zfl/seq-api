@@ -1,0 +1,25 @@
+{
+  "development": {
+    "username": "root",
+    "password": "123456",
+    "database": "seq_api_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "timezone": "+08:00",
+    "port": "3307"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "seq_api_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "seq_api_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
