@@ -253,18 +253,18 @@ rank（排序）：integer，无符号，默认值1，不为null
 
 ##### Users：用户表
 
-| 字段                   | 类型    | 允许Null | 无符号 | 自增 | 索引    | 默认值 | 备注                       |
-| ---------------------- | ------- | -------- | ------ | ---- | ------- | ------ | -------------------------- |
-| id（编号）             | integer | NO       | YES    | YES  | PRIMARY | -      |                            |
-| email（电子邮箱）      | varchar | NO       | -      | -    | UNIQUE  | -      |                            |
-| username（用户名）     | varchar | NO       | -      | -    | UNIQUE  | -      |                            |
-| nickname（昵称）       | varchar | NO       | -      | -    | -       | -      |                            |
-| password（密码）       | varchar | NO       | -      | -    | -       | -      |                            |
-| avatar（头像）         | varchar | -        | -      | -    | -       | -      |                            |
-| sex（性别）            | tinyint | NO       | YES    |      |         | 9      | 1为女性，9为不选择。       |
-| company（公司/学校名） | varchar | -        | -      | -    | -       | -      |                            |
-| introduce（自我介绍）  | text    | -        | -      | -    | -       | -      |                            |
-| role（用户组）         | tinyint | NO       | YES    | -    | INDEX   | 0      | 0为普通用户，100为管理员。 |
+| 字段                   | 类型    | 允许Null | 无符号 | 自增 | 索引    | 默认值 | 备注                          |
+| ---------------------- | ------- | -------- | ------ | ---- | ------- | ------ | ----------------------------- |
+| id（编号）             | integer | NO       | YES    | YES  | PRIMARY | -      |                               |
+| email（电子邮箱）      | varchar | NO       | -      | -    | UNIQUE  | -      |                               |
+| username（用户名）     | varchar | NO       | -      | -    | UNIQUE  | -      |                               |
+| nickname（昵称）       | varchar | NO       | -      | -    | -       | -      |                               |
+| password（密码）       | varchar | NO       | -      | -    | -       | -      |                               |
+| avatar（头像）         | varchar | -        | -      | -    | -       | -      |                               |
+| sex（性别）            | tinyint | NO       | YES    |      |         | 9      | 0为男性，1为女性，2为不选择。 |
+| company（公司/学校名） | varchar | -        | -      | -    | -       | -      |                               |
+| introduce（自我介绍）  | text    | -        | -      | -    | -       | -      |                               |
+| role（用户组）         | tinyint | NO       | YES    | -    | INDEX   | 0      | 0为普通用户，100为管理员。    |
 
 id（编号）：integer，主键，不为null，无符号，自增
 
@@ -372,5 +372,62 @@ sequelize model:generate --name Setting --attributes name:string,icp:string,copy
 ```
 
 
+
+===========================================================================
+
+### 接口开发步骤
+
+- 种子填充数据
+
+- 修改模型（增加验证、增加关联）
+
+- 复制其他路由文件，进行查找替换
+
+- 修改白名单和搜索
+
+- `app.js`中添加路由
+
+- `Apifox`测试
+
+===========================================================================
+
+### 建立模型和表的时候漏掉一个或多个字段解决步骤
+
+1. 新建一个迁移文件
+
+```
+sequelize migration:create --name add-avatar-to-user
+```
+
+2. 修改迁移文件，添加需要增加字段的相关代码
+
+```
+async up (queryInterface, Sequelize) {
+	await queryInterface.addColumn('Users', 'avatar', {
+      type: Sequelize.STRING
+    });
+ },
+
+ async down (queryInterface, Sequelize) {
+ 	await queryInterface.removeColumn('Users', 'avatar');
+ }
+```
+
+3. 执行迁移文件
+
+```
+sequelize db:migrate
+```
+
+4. 模型文件添加相关字段
+
+===========================================================================
+
+### 相关名词解释
+
+| 名词     | 含义                                                         | 声称该文件命令                              |
+| -------- | ------------------------------------------------------------ | ------------------------------------------- |
+| 迁移文件 | 等于数据库表，执行迁移文件数据库中就会出现此对应的表         | sequelize db:migrate                        |
+| 种子文件 | 等于数据，种子文件一般用来定义一些数据，执行种子文件后表中就存在一些模拟数据了 | sequelize seed:generate --name [种子文件名] |
 
 ===========================================================================
