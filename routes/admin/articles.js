@@ -123,7 +123,7 @@ async function getArticle(req) {
     // 获取文章ID
     const { id } = req.params;
     // 查询当前文章
-    const article = Article.findByPk(id);
+    const article = await Article.findByPk(id);
     // 如果没有查询到，就抛出异常
     if (!article) throw new NotFoundError(`ID:${id}的文章未找到。`);
     return article;

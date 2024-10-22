@@ -123,7 +123,7 @@ async function getCategory(req) {
     // 获取分类ID
     const { id } = req.params;
     // 查询当前分类
-    const category = Category.findByPk(id);
+    const category = await Category.findByPk(id);
     // 如果没有查询到，就抛出异常
     if (!category) throw new NotFoundError(`ID:${id}的分类未找到。`);
     return category;
